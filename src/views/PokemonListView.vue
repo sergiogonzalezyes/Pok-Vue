@@ -12,6 +12,14 @@
                 :stats="pokemon.stats"
             />
         </div>
+        <div v-if="!isLoading" class="pagination">
+            <Pagination 
+                :currentPage="currentPage"
+                :totalPages="totalPages"
+                @next="handleNext"
+                @previous="handlePrevious"
+            />
+        </div>
     </div>
 
     <LoadingOverlay v-if="isLoading" />
@@ -22,20 +30,42 @@
 import { ref, onMounted } from 'vue';
 import capitalizeFirstLetter from '../utils.ts'
 import PokemonCard from '../components/PokemonCard.vue';
-import LoadingOverlay from '../components/LoadingOverlay.vue'
+import Pagination from '../components/PaginationControls.vue';
+import LoadingOverlay from '../components/LoadingOverlay.vue';
 
 const pokemonList = ref([]);
 const pokemonData = ref([]);
+const currentPage = ref(1);
+const totalPages = ref(65);
+const limit = 20;
 const isLoading = ref(false);
 const errMsg = "Oops! It appears something has gone wrong. Please try again.";
 
+
+async function handleNext() {
+    currentPage.value = currentPage.value + 1;
+    loadTwenty(currentPage.value); 
+}
+
+async function handlePrevious() {
+    currentPage.value = currentPage.value - 1;
+    loadTwenty(currentPage.value);
+}
+
+
+
 onMounted(() => {
-    loadTwenty();
+    loadTwenty(currentPage.value);
 })
 
-async function loadTwenty() {
-    const url = 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0'
+async function loadTwenty(currentPage) {
+    const offset = (currentPage - 1) * limit;
+    const url = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${offset}`;
     isLoading.value = true;
+
+
+    pokemonData.value = [];
+
 
     const promiseArray = [];
 
@@ -75,7 +105,6 @@ async function loadTwenty() {
 async function loadData(url) {
     try {
         const response = await fetch(url);
-        // console.log(response)
 
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`)
@@ -107,12 +136,29 @@ async function loadData(url) {
 <style scoped>
 
 .cards {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-    padding: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 160px); /* adjust based on actual header + pagination height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 20px;
+  padding-bottom: 100px; /* prevents last row from hiding under fixed pagination */
 }
+
+.pagination {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  z-index: 100;
+}
+
 
 </style>

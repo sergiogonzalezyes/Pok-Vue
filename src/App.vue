@@ -25,7 +25,7 @@ header {
   width: 100%;
   height: 100px;
   padding: 1rem;
-  background-color: var(--color-background-soft);
+  /* background-color: var(--color-background-soft); */
   position: fixed;
   top: 0;
   z-index: 1000;

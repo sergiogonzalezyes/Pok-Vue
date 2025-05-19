@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1> RSOGLAW </h1>
-        <img src="../assets/pokeball.png" class="rotate" width="400" height="400" />
+        <h1> Loading... </h1>
+        <img src="../assets/pokeball.png" class="rotate" width="200" height="200" />
     </div>
 </template>
 
