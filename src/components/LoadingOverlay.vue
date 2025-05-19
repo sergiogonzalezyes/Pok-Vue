@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1> Loading... </h1>
         <img src="../assets/pokeball.png" class="rotate" width="200" height="200" />
+        <h1> Loading... </h1>
     </div>
 </template>
 

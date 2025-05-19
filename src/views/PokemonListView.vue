@@ -63,13 +63,8 @@ async function loadTwenty(currentPage) {
     const url = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${offset}`;
     isLoading.value = true;
 
-
-    pokemonData.value = [];
-
-
-    const promiseArray = [];
-
     try {
+        pokemonData.value = [];
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`)
@@ -78,17 +73,15 @@ async function loadTwenty(currentPage) {
         const json = await response.json();
         const results = json.results;
         
-        results.map((element) => {
-            const url = element.url;
-            promiseArray.push(loadData(url));
-        });
+        const promiseArray = results.map((element) => loadData(element.url));
+        const resolvedPokemon = await Promise.all(promiseArray);
 
-        await new Promise(resolve => setTimeout(resolve, 200));
-    
-        pokemonData.value = await Promise.all(promiseArray);
-
-
-
+        // results.map((element) => {
+        //     const url = element.url;
+        //     promiseArray.push(loadData(url));
+        // });
+        await new Promise(resolve => setTimeout(resolve, 200));    
+        pokemonData.value = resolvedPokemon;
 
     } catch (error) {
         console.error(error.message);

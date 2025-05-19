@@ -12,6 +12,7 @@
                 <div class="cardBody">
                     <img class="cardImage"
                         :src=sprite
+                        loading="lazy"
                     />
                     <div>
                         <div class="cardAbility">
