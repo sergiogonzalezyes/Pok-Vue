@@ -7,21 +7,17 @@
 </template>
 
 <script setup lang="ts">
+interface Props {
+  currentPage: number;
+  totalPages: number;
+}
 
-const props = defineProps({
-    currentPage: {
-        type: Number,
-        required: true
-    },
-    totalPages: {
-        type: Number,
-        required: true
-    }
-})
+const props = defineProps<Props>();
 
-
-
-
+defineEmits<{
+  (e: 'next'): void;
+  (e: 'previous'): void;
+}>();
 </script>
 
 <style scoped>

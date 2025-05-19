@@ -10,17 +10,23 @@
                 
                 </div>
                 <div class="cardBody">
-                    <img class="cardImage"
-                        :src=sprite
-                        loading="lazy"
+                    <img
+                      v-if="sprite"
+                      class="cardImage"
+                      :src="sprite"
+                      loading="lazy"
                     />
+
                     <div>
                         <div class="cardAbility">
                 
                         </div>
                         <div class="cardType">
                             <h3>Type(s): </h3>
-                            <p v-for="type in types"> {{ capitalizeFirstLetter(type.type.name) }}</p>
+                            <p v-for="type in types" :key="type">
+                              {{ capitalizeFirstLetter(type) }}
+                            </p>
+
                         </div>
                         <div class="cardDetails">
                             <p class="cardWeight"> Weight: {{ weight }} lbs</p>
@@ -35,41 +41,19 @@
 </template>
 
 <script setup lang="ts">
-import capitalizeFirstLetter from '../utils.ts'
+import capitalizeFirstLetter from '../utils.ts';
 
-const props = defineProps({
-    name: {
-        type: String,
-        required: false
-    },
-    id: {
-        type: Number,
-        required: false
-    },
-    sprite: {
-        type: String,
-        required: false
-    },
-    types: {
-        type: Array,
-        required: false
-    },
-    abilities: {
-        type: Array,
-        required: false
-    },
-    dexEntry: {
-        type: String,
-        required: false
-    },
-    weight: {
-        type: Number,
-        required: false
-    }
-})
+interface PokemonCardProps {
+  id?: number;
+  name?: string;
+  sprite?: string;
+  types?: string[];
+  abilities?: any[];
+  dexEntry?: string;
+  weight?: number;
+}
 
-
-
+const props = defineProps<PokemonCardProps>();
 </script>
 
 <style scoped>
