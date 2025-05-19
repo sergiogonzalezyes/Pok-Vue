@@ -90,8 +90,8 @@ const props = defineProps({
 }
 
 .holographic-card {
-  width: 300px;
-  min-height: 400px;
+  width: 250px;
+  min-height: 300px;
   background: #111;
   display: flex;
   flex-direction: column;
@@ -148,7 +148,7 @@ const props = defineProps({
 
 .cardBody {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   gap: 1rem;
 }
@@ -160,7 +160,7 @@ const props = defineProps({
 
 .cardType,
 .cardDetails {
-  text-align: center;
+  text-align: left;
   font-size: 0.9rem;
   color: var(--color-text);
 }

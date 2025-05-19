@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="cards">
+        <div v-if="!isLoading" class="cards">
             <PokemonCard v-for="pokemon in pokemonData"
                 :id="pokemon.id"
                 :name="pokemon.name"
@@ -13,12 +13,16 @@
             />
         </div>
     </div>
+
+    <LoadingOverlay v-if="isLoading" />
+
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import capitalizeFirstLetter from '../utils.ts'
 import PokemonCard from '../components/PokemonCard.vue';
+import LoadingOverlay from '../components/LoadingOverlay.vue'
 
 const pokemonList = ref([]);
 const pokemonData = ref([]);
@@ -48,13 +52,23 @@ async function loadTwenty() {
             const url = element.url;
             promiseArray.push(loadData(url));
         });
-        
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+    
         pokemonData.value = await Promise.all(promiseArray);
 
-        isLoading.value = false;
+
+
+
     } catch (error) {
         console.error(error.message);
+    } finally {
+        setTimeout(() => {
+            isLoading.value = false;
+        }, 1500);
+
     }
+
 }
 
 
