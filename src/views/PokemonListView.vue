@@ -9,9 +9,11 @@
         :sprite="pokemon.sprite"
         :types="pokemon.types"
         :weight="pokemon.weight"
+        :height="pokemon.height"
         :abilities="pokemon.abilities"
         :species="pokemon.species"
         :stats="pokemon.stats"
+        :flavor_text="pokemon.flavor_text"
       />
     </div>
 
@@ -43,9 +45,11 @@ interface Pokemon {
   sprite: string;
   types: string[];
   weight: number;
+  height: number;
   abilities: string[];
-  species: any; // You can refine this later
+  species: string; // You can refine this later
   stats: any;   // Same here
+  flavor_text: string;
 }
 
 const pokemonData = ref<Pokemon[]>([]);
@@ -115,15 +119,24 @@ async function loadData(url: string): Promise<Pokemon | undefined> {
 
     const json = await response.json();
 
+    const species = await fetch(json.species.url)
+    if (!species.ok) {
+      throw new Error(`Species Response status: ${species.status}`)
+    };
+
+    const species_json = await species.json();
+
     const pokemonJson: Pokemon = {
       id: json.id,
       name: capitalizeFirstLetter(json.name),
       abilities: json.abilities,
-      species: json.species,
+      species: species_json.genera.find((g: any) => g.language.name === 'en')?.genus,
       sprite: json.sprites.front_default,
       stats: json.stats,
       types: json.types.map((t: any) => t.type.name), // just extract names if needed
-      weight: json.weight
+      weight: json.weight,
+      height: json.height,
+      flavor_text: species_json.flavor_text_entries.find((t: any) => t.language.name === 'en')?.flavor_text
     };
 
     return pokemonJson;
