@@ -123,26 +123,27 @@ function loadSearch(searchTerm: string) {
 
 @media (max-width: 600px) {
   .search-wrapper {
-    transform: scale(0.85);
     max-width: 100%;
-    height: 52px;
-    padding: 4px 6px;
-    gap: 6px;
+    width: 100%;
+    height: 50px;
+    padding: 2px 4px;
+    gap: 4px;
+    transform: scale(1); /* Don't scale down if you're resizing directly */
   }
 
   .search-wrapper img.rotate {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
   }
 
   .search-input {
-    font-size: 1.25rem;
+    font-size: 1rem;
     padding: 2px 4px;
   }
 
   .search-btn {
-    font-size: 1.4rem;
-    padding: 2px 6px;
+    font-size: 1.2rem;
+    padding: 2px 4px;
   }
 }
 

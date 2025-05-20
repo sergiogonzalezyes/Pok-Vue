@@ -5,7 +5,7 @@
         <img id="mew" src="/mew.png" />
         <RouterLink to="/">Poké-Vue</RouterLink>
       </div>
-      <div>
+      <div class="search-wrapper">
         <SearchBar />
       </div>
     </nav>
@@ -27,7 +27,7 @@ import SearchBar from './components/SearchBar.vue'
 <style scoped>
 
 main {
-  padding: 100px 0 0 0;
+  padding: 120px 0 0 0; /* was 100px */
 }
 
 header {
@@ -43,9 +43,10 @@ header {
 
 nav {
   display: flex;
+  flex-wrap: wrap;              /* 👉 allow children to wrap */
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 nav a.router-link-exact-active {
@@ -75,6 +76,46 @@ nav a.router-link-exact-active {
   text-shadow: 1px 1px #000;
 }
 
+
+@media (max-width: 600px) {
+
+
+  main {
+    padding: 200px 0 0 0; /* was 100px */
+  }
+
+
+  header {
+    width: 100%;
+    height: 200px;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    background-color: #1f1f1f;
+    box-shadow: 0 4px 0 #000;
+  }
+
+
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .site-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .search-wrapper {
+    justify-content: center;
+  }
+
+}
 
 
 
