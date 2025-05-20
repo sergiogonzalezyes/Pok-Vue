@@ -1,12 +1,13 @@
-<script setup>
-import { RouterView, RouterLink } from 'vue-router'
-</script>
-
 <template>
   <header>
     <nav>
-      <img id="mew" src="/mew.png" />
-      <RouterLink to="/">Poké-Vue</RouterLink>
+      <div class="site-header">
+        <img id="mew" src="/mew.png" />
+        <RouterLink to="/">Poké-Vue</RouterLink>
+      </div>
+      <div>
+        <SearchBar />
+      </div>
     </nav>
   </header>
 
@@ -14,6 +15,14 @@ import { RouterView, RouterLink } from 'vue-router'
     <RouterView />
   </main>
 </template>
+
+
+<script setup>
+import { RouterView, RouterLink } from 'vue-router'
+import SearchBar from './components/SearchBar.vue'
+</script>
+
+
 
 <style scoped>
 
@@ -24,29 +33,49 @@ main {
 header {
   width: 100%;
   height: 100px;
-  padding: 1rem;
-  /* background-color: var(--color-background-soft); */
+  padding: 1rem 2rem;
   position: fixed;
   top: 0;
   z-index: 1000;
-  /* border-bottom: 1px solid var(--color-border); */
+  background-color: #1f1f1f;
+  box-shadow: 0 4px 0 #000;
 }
 
 nav {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
-  font-size: 1rem;
 }
 
 nav a.router-link-exact-active {
   font-weight: bold;
-  color: var(--color-text);
+  color: #ffffff;
+  font-family: 'VT323', monospace;
+  font-size: 1.4rem;
+  text-shadow: 1px 1px #000;
 }
 
 #mew {
-  height: 70px;
-  width: 70px;
+  height: 60px;
+  width: 60px;
 }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.site-header a {
+  font-size: 1.6rem;
+  text-decoration: none;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  text-shadow: 1px 1px #000;
+}
+
+
+
 
 </style>
