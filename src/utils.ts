@@ -8,3 +8,6 @@ export default function capitalizeFirstLetter(string: string) {
 // console.log(capitalizedString); // Output: Hello world
 
 
+export function lowercaseAllLetter(string: string) {
+  return string.toLowerCase();
+}

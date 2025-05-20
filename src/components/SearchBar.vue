@@ -7,16 +7,65 @@
       placeholder="Search Pokémon..."
       class="search-input"
     />
-    <button class="search-btn">
+    <button class="search-btn" @click="searchPokemon(searchTerm)">
       Search
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { lowercaseAllLetter } from '../utils.ts'
 
-const searchTerm = ref('');
+interface PokemonEntry {
+  name: string;
+  url: string;
+}
+
+const searchTerm = ref<string>('');
+const pokemonNames = ref<PokemonEntry[]>([]);
+
+onMounted(() => {
+    loadAll();
+
+})
+
+async function loadAll() {
+  const url = `https://pokeapi.co/api/v2/pokemon?limit=1300`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    const results: { name: string, url: string }[] = json.results;
+    pokemonNames.value = results.map((n: any) => ({name: n.name, url: n.url}));
+
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error('Unknown error occurred.');
+    }
+  } 
+}
+
+function searchPokemon(searchTerm: string) {
+    loadSearch(searchTerm);
+}
+
+function loadSearch(searchTerm: string) {
+    const formattedSearchTerm = lowercaseAllLetter(searchTerm);
+    const searchResult = pokemonNames.value.filter((e: PokemonEntry) => e.name.includes(formattedSearchTerm));
+    
+    // NOTE: CONTINUE HERE WITH LOOPING THROUGH AND USING ASYNC AWAIT TO ENSURE ALL REQUESTS ARE MADE FOR MATCHING NAMES
+
+}
+
+
+
 </script>
 
 <style scoped>
